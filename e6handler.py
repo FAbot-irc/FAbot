@@ -4,6 +4,7 @@ import requests
 import requests.auth
 import urllib.parse
 import traceback
+import os
 
 E621_POST_PATTERN = re.compile("e(?:621|926)\\.net/(?:posts|post/show)/(\\d+)", re.IGNORECASE)
 E621_IMAGE_PATTERN = re.compile("static1\\.e(?:621|926)\\.net/data/(preview/|sample/)?[\\da-f]{2}/[\\da-f]{2}/([\\da-f]+)\\.[a-z]+", re.IGNORECASE)
@@ -11,7 +12,13 @@ E621_IMAGE_PATTERN = re.compile("static1\\.e(?:621|926)\\.net/data/(preview/|sam
 E621_FULL_POST_PATTERN = re.compile("(?:https?://)?e(?:621|926)\\.net/(?:posts|post/show)/(\\d+)(?:\\?[^ ])?")
 E621_FULL_IMAGE_PATTERN = re.compile("(?:https?://)?static1\\.e(?:621|926)\\.net/data/(preview/|sample/)?[\\da-f]{2}/[\\da-f]{2}/([\\da-f]+)\\.[a-z]+")
 
-USER_AGENT = "FAbot/0.1 (by one_two_oatmeal on e621)"
+if 'E621_USER' not in os.environ:
+    print("Must provide E621_USER environment variable per E621 API policy.")
+    exit(1)
+
+_E621_USER = os.environ['E621_USER']
+
+USER_AGENT = f"FAbot/0.1 (by {os.environ['E621_USER']} on e621)"
 RATINGS = {'s': "Safe", 'q': "Questionable", 'e': "Explicit"}
 BLACKLIST_SAFE = ['feral', 'young']
 BLACKLIST_GENERAL = ['rape']

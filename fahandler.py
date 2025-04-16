@@ -9,11 +9,12 @@ scraper = cfscrape.create_scraper()
 
 # Code adapted from https://github.com/Hidoni/FAToFACDN/blob/master/furaffinityhandler.py
 
+_USER_LINK_PATTERN = re.compile('^/user/')
 
 def get_info(secrets, post_id):
     myusername = secrets['username']
-    scraper.get("https://www.furaffinity.net/")
     scraper.cookies.update(secrets['cookies'])
+    scraper.get("https://www.furaffinity.net/")
     post_url = f'https://www.furaffinity.net/view/{urllib.parse.quote(post_id, safe="", encoding="utf-8", errors="replace")}/'
     response = scraper.get(post_url)
     if response.status_code == 404:
@@ -51,8 +52,8 @@ def get_info(secrets, post_id):
                 info['download-link'] = urllib.parse.urljoin(post_url, link['href'])
 
     info['artist'] = '(unknown)'
-    for link in soup.findAll('a', href=re.compile('^/user/')):
-        key = link.find('strong')
+    for link in soup.findAll('a', href=_USER_LINK_PATTERN):
+        key = link.find('span', class_='c-usernameBlockSimple__displayName')
         if key and key.contents:
             info['artist'] = key.contents[0]
             break
