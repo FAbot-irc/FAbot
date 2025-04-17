@@ -560,7 +560,7 @@ class FABot(irc.SASLIRCBot):
             if len(params) != 0:
                 await self.send_notice(source, "Usage: help")
                 return
-            await self.send_notice(source, "See https://github.com/bigfoot547/FAbot/blob/master/README.md")
+            await self.send_notice(source, "See https://github.com/FAbot-irc/FAbot/blob/master/README.md")
         else:
             await self.send_notice(source, f"Invalid command. Try \2/msg {self.nick} help\2 for a list.")
 
@@ -761,7 +761,7 @@ class FABot(irc.SASLIRCBot):
             if len(params) != 0:
                 await self.send_message(target, f"{source}: Usage: help")
                 return
-            await self.send_message(target, f"{source}: See https://github.com/bigfoot547/FAbot/blob/master/README.md")
+            await self.send_message(target, f"{source}: See https://github.com/FAbot-irc/FAbot/blob/master/README.md")
 
     async def handle_admin_command(self, line, params):
         source = line.source['nick']
